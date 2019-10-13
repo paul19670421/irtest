@@ -1,4 +1,4 @@
-﻿let maqueencb: Action
+let maqueencb: Action
 let maqueenmycb: Action
 let maqueene = "1"
 let maqueenparam = 0
@@ -7,14 +7,11 @@ let IrPressEvent = 0
 const MOTER_ADDRESSS = 0x10
 
 enum PingUnit {
-    
-//% block="cm"
+    //% block="cm"
     Centimeters,
-    
-//% block="μs"
+    //% block="μs"
     MicroSeconds
 }
-
 
 
 //% weight=10 color=#008B00 icon="\uf136" block="maqueen"
@@ -26,74 +23,58 @@ namespace maqueen {
     }
 
     export enum aMotors {
-        
-//% blockId="M1" block="M1"
+        //% blockId="M1" block="M1"
         M1 = 0,
-        
-//% blockId="M2" block="M2"
+        //% blockId="M2" block="M2"
         M2 = 1,
-        
-//% blockId="All" block="All"
+        //% blockId="All" block="All"
         All = 2
     }
 
     export enum aServos {
-        
-//% blockId="S1" block="S1"
+        //% blockId="S1" block="S1"
         S1 = 0,
-        
-//% blockId="S2" block="S2"
+        //% blockId="S2" block="S2"
         S2 = 1
     }
 
     export enum Dir {
-        
-//% blockId="CW" block="CW"
+        //% blockId="CW" block="CW"
         CW = 0x0,
-        
-//% blockId="CCW" block="CCW"
+        //% blockId="CCW" block="CCW"
         CCW = 0x1
     }
 
     export enum Patrol {
-       
-//% blockId="PatrolLeft" block="PatrolLeft"
+        //% blockId="PatrolLeft" block="PatrolLeft"
         PatrolLeft = 13,
-        
-//% blockId="PatrolRight" block="PatrolRight"
+        //% blockId="PatrolRight" block="PatrolRight"
         PatrolRight = 14
     }
 
     export enum LED {
-        
-//% blockId="LEDLeft" block="LEDLeft"
+        //% blockId="LEDLeft" block="LEDLeft"
         LEDLeft = 8,
-        
-//% blockId="LEDRight" block="LEDRight"
+        //% blockId="LEDRight" block="LEDRight"
         LEDRight = 12
     }
 
     export enum LEDswitch {
-    
-//% blockId="turnOn" block="turnOn"
+        //% blockId="turnOn" block="turnOn"
         turnOn = 0x01,
-        
-//% blockId="turnOff" block="turnOff"
+        //% blockId="turnOff" block="turnOff"
         turnOff = 0x00
     }
 
-    
-//% advanced=true shim=maqueenIR::initIR
+    //% advanced=true shim=maqueenIR::initIR
     function initIR(pin: Pins): void {
         return
     }
-    
-//% advanced=true shim=maqueenIR::onPressEvent
+    //% advanced=true shim=maqueenIR::onPressEvent
     function onPressEvent(btn: RemoteButton, body: Action): void {
         return
     }
-    
-//% advanced=true shim=maqueenIR::getParam
+    //% advanced=true shim=maqueenIR::getParam
     function getParam(): number {
         return 0
     }
@@ -108,12 +89,9 @@ namespace maqueen {
 
 
 
-    
-//% weight=100
-    
-//% blockGap=50
-    
-//% blockId=IR_callbackUser block="on IR received"
+    //% weight=100
+    //% blockGap=50
+    //% blockId=IR_callbackUser block="on IR received"
     export function IR_callbackUser(maqueencb: (message: number) => void) {
         maqueenInit();
         IR_callback(() => {
@@ -125,19 +103,15 @@ namespace maqueen {
         });
     }
 
-    
-//% weight=10
-    
-//% blockId=IR_read block="read IR"
+    //% weight=10
+    //% blockId=IR_read block="read IR"
     export function IR_read(): number {
         maqueenInit()
         return getParam()
     }
 
-    
-//% weight=10
-    
-//% blockId=IR_read_version block="Get product information"
+    //% weight=10
+    //% blockId=IR_read_version block="Get product information"
     export function IR_read_version(): string {
         maqueenInit()
         pins.i2cWriteNumber(0x10, 50, NumberFormat.UInt8BE);
@@ -157,13 +131,10 @@ namespace maqueen {
         onPressEvent(IrPressEvent, maqueencb)
     }
 
-    
-//% blockId=ultrasonic_sensor block="sensor unit|%unit"
-    
-//% weight=95
+    //% blockId=ultrasonic_sensor block="sensor unit|%unit"
+    //% weight=95
     export function sensor(unit: PingUnit, maxCmDistance = 500): number {
-        
-// send pulse  basic.pause=sleep control.waitMicros=delay
+        // send pulse  basic.pause=sleep control.waitMicros=delay
         pins.setPull(DigitalPin.P1, PinPullMode.PullNone);
         pins.digitalWritePin(DigitalPin.P1, 0);
         control.waitMicros(2);
@@ -174,8 +145,7 @@ namespace maqueen {
 
 
 
-        
-// read pulse
+        // read pulse
         let d = pins.pulseIn(DigitalPin.P2, PulseValue.High, maxCmDistance * 42);
         console.log("Distance: " + d / 42);
 
@@ -191,14 +161,10 @@ namespace maqueen {
     }
 
     //% weight=90
-    
-//% blockId=motor_MotorRun block="Motor|%index|dir|%Dir|speed|%speed"
-    
-//% speed.min=0 speed.max=255
-    
-//% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
-    
-//% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
+    //% blockId=motor_MotorRun block="Motor|%index|dir|%Dir|speed|%speed"
+    //% speed.min=0 speed.max=255
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
+    //% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
     export function MotorRun(index: aMotors, direction: Dir, speed: number): void {
         let buf = pins.createBuffer(3);
         if (index == 0) {
@@ -223,12 +189,9 @@ namespace maqueen {
         }
     }
 
-    
-//% weight=20
-    
-//% blockId=motor_motorStop block="Motor stop|%motors"
-    
-/% motors.fieldEditor="gridpicker" motors.fieldOptions.columns=2 
+    //% weight=20
+    //% blockId=motor_motorStop block="Motor stop|%motors"
+    //% motors.fieldEditor="gridpicker" motors.fieldOptions.columns=2 
     export function motorStop(motors: aMotors): void {
         let buf = pins.createBuffer(3);
         if (motors == 0) {
@@ -254,24 +217,17 @@ namespace maqueen {
         }
 
     }
-    
-/*
-        
-//% weight=10
-        
-//% blockId=motor_motorStopAll block="Motor Stop All"
+    /*
+        //% weight=10
+        //% blockId=motor_motorStopAll block="Motor Stop All"
         export function motorStopAll(): void {
             let buf = pins.createBuffer(3);
             
         }
-    
-*/
-    
-//% weight=20
-    
-//% blockId=read_Patrol block="Read Patrol|%patrol"
-    
-//% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
+    */
+    //% weight=20
+    //% blockId=read_Patrol block="Read Patrol|%patrol"
+    //% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
     export function readPatrol(patrol: Patrol): number {
         if (patrol == Patrol.PatrolLeft) {
             return pins.digitalReadPin(DigitalPin.P13)
@@ -282,14 +238,10 @@ namespace maqueen {
         }
     }
 
-    
-//% weight=20
-    
-//% blockId=writeLED block="led|%led|ledswitch|%ledswitch"
-    
-//% led.fieldEditor="gridpicker" led.fieldOptions.columns=2 
-    
-//% ledswitch.fieldEditor="gridpicker" ledswitch.fieldOptions.columns=2
+    //% weight=20
+    //% blockId=writeLED block="led|%led|ledswitch|%ledswitch"
+    //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2 
+    //% ledswitch.fieldEditor="gridpicker" ledswitch.fieldOptions.columns=2
     export function writeLED(led: LED, ledswitch: LEDswitch): void {
         if (led == LED.LEDLeft) {
             pins.digitalWritePin(DigitalPin.P8, ledswitch)
@@ -301,12 +253,9 @@ namespace maqueen {
     }
 
     //% weight=90
-    
-//% blockId=servo_ServoRun block="Servo|%index|angle|%angle"
-    
-//% angle.min=0 angle.max=180
-    
-//% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
+    //% blockId=servo_ServoRun block="Servo|%index|angle|%angle"
+    //% angle.min=0 angle.max=180
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     export function ServoRun(index: aServos, angle: number): void {
         let buf = pins.createBuffer(2);
         if (index == 0) {
