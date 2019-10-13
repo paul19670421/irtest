@@ -17,23 +17,12 @@ enum PingUnit {
 
 
 
-//% weight=10 color=#008B00 icon="\uf136" block="paulir"
+//% weight=10 color=#008B00 icon="\uf136" block="ir"
 namespace maqueen {
 
     export class Packeta {
         public mye: string;
         public myparam: number;
-    }
-
-    
-
-export enum Patrol {
-        
-//% blockId="PatrolLeft" block="PatrolLeft"
-        PatrolLeft = 13,
-        
-//% blockId="PatrolRight" block="PatrolRight"
-        PatrolRight = 14
     }
 
     
@@ -122,7 +111,8 @@ export function IR_callbackUser(maqueencb: (message: number) => void) {
  
 
 export function sensor(unit: PingUnit, maxCmDistance = 500): number {
-        // send pulse  basic.pause=sleep control.waitMicros=delay
+        
+// send pulse  basic.pause=sleep control.waitMicros=delay
         pins.setPull(DigitalPin.P1, PinPullMode.PullNone);
         pins.digitalWritePin(DigitalPin.P1, 0);
         control.waitMicros(2);
@@ -133,7 +123,8 @@ export function sensor(unit: PingUnit, maxCmDistance = 500): number {
 
 
 
-        // read pulse
+       
+ // read pulse
         let d = pins.pulseIn(DigitalPin.P2, PulseValue.High, maxCmDistance * 42);
         console.log("Distance: " + d / 42);
 
@@ -204,17 +195,3 @@ export function sensor(unit: PingUnit, maxCmDistance = 500): number {
    
 
    
-//% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
-    export function ServoRun(index: aServos, angle: number): void {
-        let buf = pins.createBuffer(2);
-        if (index == 0) {
-            buf[0] = 0x14;
-        }
-        if (index == 1) {
-            buf[0] = 0x15;
-        }
-        buf[1] = angle;
-        pins.i2cWriteBuffer(0x10, buf);
-    }
-
-}
