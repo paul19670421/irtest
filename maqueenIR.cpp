@@ -53,8 +53,9 @@ enum class RemoteButton {
   Nine = 0x1a
 };
 
+
 //% color=50 weight=80
-//% icon="\uf1eb"
+//% icon="\uf209"
 namespace maqueenIR { 
   map<RemoteButton, vA> actions;
   map<RemoteButton, uint32_t> lastact;

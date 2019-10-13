@@ -17,7 +17,7 @@ enum PingUnit {
 
 
 
-//% weight=10 color=#008B00 icon="\uf136" block="ir"
+//% weight=10 color=#008B00 icon="\uf209" block="IR"
 namespace maqueen {
 
     export class Packeta {
@@ -25,9 +25,9 @@ namespace maqueen {
         public myparam: number;
     }
 
-    
-
-   
+    export enum aMotors {
+        
+ 
 //% advanced=true shim=maqueenIR::initIR
     function initIR(pin: Pins): void {
         return
@@ -58,10 +58,8 @@ namespace maqueen {
     
 //% blockGap=50
     
-
 //% blockId=IR_callbackUser block="on IR received"
-    
-export function IR_callbackUser(maqueencb: (message: number) => void) {
+    export function IR_callbackUser(maqueencb: (message: number) => void) {
         maqueenInit();
         IR_callback(() => {
             const packet = new Packeta();
@@ -75,7 +73,6 @@ export function IR_callbackUser(maqueencb: (message: number) => void) {
     
 //% weight=10
     
-
 //% blockId=IR_read block="read IR"
     export function IR_read(): number {
         maqueenInit()
@@ -85,7 +82,6 @@ export function IR_callbackUser(maqueencb: (message: number) => void) {
     
 //% weight=10
     
-
 //% blockId=IR_read_version block="Get product information"
     export function IR_read_version(): string {
         maqueenInit()
@@ -107,10 +103,10 @@ export function IR_callbackUser(maqueencb: (message: number) => void) {
     }
 
     
-
- 
-
-export function sensor(unit: PingUnit, maxCmDistance = 500): number {
+//% blockId=ultrasonic_sensor block="sensor unit|%unit"
+    
+//% weight=95
+    export function sensor(unit: PingUnit, maxCmDistance = 500): number {
         
 // send pulse  basic.pause=sleep control.waitMicros=delay
         pins.setPull(DigitalPin.P1, PinPullMode.PullNone);
@@ -123,8 +119,8 @@ export function sensor(unit: PingUnit, maxCmDistance = 500): number {
 
 
 
-       
- // read pulse
+        
+// read pulse
         let d = pins.pulseIn(DigitalPin.P2, PulseValue.High, maxCmDistance * 42);
         console.log("Distance: " + d / 42);
 
@@ -142,41 +138,7 @@ export function sensor(unit: PingUnit, maxCmDistance = 500): number {
     
 //% weight=90
     
-
-
-//% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
-    
-//% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
-    export function MotorRun(index: aMotors, direction: Dir, speed: number): void {
-        let buf = pins.createBuffer(3);
-        if (index == 0) {
-            buf[0] = 0x00;
-            buf[1] = direction;
-            buf[2] = speed;
-            pins.i2cWriteBuffer(0x10, buf);
-        }
-        if (index == 1) {
-            buf[0] = 0x02;
-            buf[1] = direction;
-            buf[2] = speed;
-            pins.i2cWriteBuffer(0x10, buf);
-        }
-        if (index == 2) {
-            buf[0] = 0x00;
-            buf[1] = direction;
-            buf[2] = speed;
-            pins.i2cWriteBuffer(0x10, buf);
-            buf[0] = 0x02;
-            pins.i2cWriteBuffer(0x10, buf);
-        }
-    }
-
-    
-//% weight=20
-    
-   
-
- 
+       
 //% blockId=read_Patrol block="Read Patrol|%patrol"
     
 //% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
@@ -192,6 +154,6 @@ export function sensor(unit: PingUnit, maxCmDistance = 500): number {
 
     
 //% weight=20
-   
 
-   
+    
+    
